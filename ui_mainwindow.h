@@ -73,6 +73,9 @@ public:
     QLabel *label_9;
     QLineEdit *lineEdit_refY;
     QFrame *line_4;
+    QHBoxLayout *horizontalLayout_16;
+    QLabel *label_15;
+    QComboBox *comboBox_startDir;
     QHBoxLayout *horizontalLayout_12;
     QLabel *label_10;
     QComboBox *comboBox_FlatNotchDir;
@@ -99,7 +102,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(800, 600);
+        MainWindow->resize(362, 523);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionSave = new QAction(MainWindow);
@@ -340,6 +343,28 @@ public:
 
         verticalLayout_2->addWidget(line_4);
 
+        horizontalLayout_16 = new QHBoxLayout();
+        horizontalLayout_16->setObjectName(QString::fromUtf8("horizontalLayout_16"));
+        label_15 = new QLabel(centralwidget);
+        label_15->setObjectName(QString::fromUtf8("label_15"));
+        label_15->setMaximumSize(QSize(120, 16777215));
+
+        horizontalLayout_16->addWidget(label_15);
+
+        comboBox_startDir = new QComboBox(centralwidget);
+        comboBox_startDir->addItem(QString());
+        comboBox_startDir->addItem(QString());
+        comboBox_startDir->addItem(QString());
+        comboBox_startDir->addItem(QString());
+        comboBox_startDir->addItem(QString());
+        comboBox_startDir->setObjectName(QString::fromUtf8("comboBox_startDir"));
+        comboBox_startDir->setMaximumSize(QSize(120, 16777215));
+
+        horizontalLayout_16->addWidget(comboBox_startDir);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_16);
+
         horizontalLayout_12 = new QHBoxLayout();
         horizontalLayout_12->setObjectName(QString::fromUtf8("horizontalLayout_12"));
         label_10 = new QLabel(centralwidget);
@@ -466,7 +491,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 362, 17));
         menu = new QMenu(menubar);
         menu->setObjectName(QString::fromUtf8("menu"));
         MainWindow->setMenuBar(menubar);
@@ -481,6 +506,7 @@ public:
         retranslateUi(MainWindow);
 
         comboBox_waferSize->setCurrentIndex(4);
+        comboBox_startDir->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -515,6 +541,13 @@ public:
         lineEdit_refX->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "Ref die y(mm)", nullptr));
         lineEdit_refY->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
+        label_15->setText(QCoreApplication::translate("MainWindow", "Start Direction", nullptr));
+        comboBox_startDir->setItemText(0, QCoreApplication::translate("MainWindow", "BottomLeft", nullptr));
+        comboBox_startDir->setItemText(1, QCoreApplication::translate("MainWindow", "TopLeft", nullptr));
+        comboBox_startDir->setItemText(2, QCoreApplication::translate("MainWindow", "TopRight", nullptr));
+        comboBox_startDir->setItemText(3, QCoreApplication::translate("MainWindow", "BottomRight", nullptr));
+        comboBox_startDir->setItemText(4, QCoreApplication::translate("MainWindow", "Center", nullptr));
+
         label_10->setText(QCoreApplication::translate("MainWindow", "Flat/Notch dir", nullptr));
         comboBox_FlatNotchDir->setItemText(0, QCoreApplication::translate("MainWindow", "0", nullptr));
         comboBox_FlatNotchDir->setItemText(1, QCoreApplication::translate("MainWindow", "90", nullptr));

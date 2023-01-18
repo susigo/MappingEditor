@@ -9,10 +9,33 @@ WaferGraphicsItem::WaferGraphicsItem(WaferType wType, WaferSizeEnum _wafer_size,
 	mapping_data.wafer_size = wSizeList[_wafer_size];
 	wafer_rect = QRectF(-0.5 * mapping_data.wafer_size,
 		-0.5 * mapping_data.wafer_size,
-		0.5 * mapping_data.wafer_size,
-		0.5 * mapping_data.wafer_size);
+		mapping_data.wafer_size,
+		mapping_data.wafer_size);
 	m_pen.setWidth(1);
 	m_pen.setColor(Qt::darkBlue);
+}
+
+void WaferGraphicsItem::DrawLineWithArrow(QPainter& painter, QPen pen, QPoint start, QPoint end)
+{
+	painter.setRenderHint(QPainter::Antialiasing, true);
+
+	qreal arrowSize = 2;
+	painter.setPen(pen);
+	painter.setBrush(pen.color());
+
+	QLineF line(end, start);
+
+	double angle = std::atan2(-line.dy(), line.dx());
+	QPointF arrowP1 = line.p1() + QPointF(sin(angle + M_PI / 3) * arrowSize,
+		cos(angle + M_PI / 3) * arrowSize);
+	QPointF arrowP2 = line.p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
+		cos(angle + M_PI - M_PI / 3) * arrowSize);
+
+	QPolygonF arrowHead;
+	arrowHead.clear();
+	arrowHead << line.p1() << arrowP1 << arrowP2;
+	painter.drawLine(line);
+	painter.drawPolygon(arrowHead);
 }
 
 int WaferGraphicsItem::isDieInside(DieGraphicsItem* die)
@@ -39,12 +62,12 @@ int WaferGraphicsItem::isDieInside(DieGraphicsItem* die)
 		return 1;
 	}
 	else if (max_dist >= wafer_real_radium
-		&& max_dist <= 0.5*mapping_data.wafer_size
+		&& max_dist <= 0.5 * mapping_data.wafer_size
 		)
 	{
 		return 0;
 	}
-	else if(max_dist > 0.5 * mapping_data.wafer_size){
+	else if (max_dist > 0.5 * mapping_data.wafer_size) {
 		return -1;
 	}
 }
@@ -54,6 +77,10 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 	mapping_data = _mapping_data;
 	wafer_size_index = (WaferSizeEnum)_mapping_data.wafer_size;
 	mapping_data.wafer_size = wSizeList[wafer_size_index];
+	wafer_rect = QRectF(-0.5 * mapping_data.wafer_size,
+		-0.5 * mapping_data.wafer_size,
+		mapping_data.wafer_size,
+		mapping_data.wafer_size);
 	this->setPos(mapping_data.center_x, mapping_data.center_y);
 	DieGraphicsItem::die_width = mapping_data.device_width;
 	DieGraphicsItem::die_height = mapping_data.device_height;
@@ -62,18 +89,30 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 	qreal y_step = 0;
 	QPointF start_point;
 
-	x_step = mapping_data.x_step;
-	y_step = mapping_data.y_step;
-	start_point.setX(mapping_data.ref_x - x_step * mapping_data.ref_col);
-	start_point.setY(mapping_data.ref_y - y_step * mapping_data.ref_row);
 	//根据起始点的方位确定步长的符号
 	switch (mapping_data.pos_ori_loc)
 	{
 	case 0:
+		x_step = mapping_data.x_step;
+		y_step = -mapping_data.y_step;
+		break;
+	case 1:
+		x_step = mapping_data.x_step;
+		y_step = mapping_data.y_step;
+		break;
+	case 2:
+		x_step = -mapping_data.x_step;
+		y_step = mapping_data.y_step;
+		break;
+	case 3:
+		x_step = -mapping_data.x_step;
+		y_step = -mapping_data.y_step;
 		break;
 	default:
 		break;
 	}
+	start_point.setX(mapping_data.ref_x - x_step * mapping_data.ref_col);
+	start_point.setY(mapping_data.ref_y - y_step * mapping_data.ref_row);
 	m_mapping.clear();
 	int die_inside = -1;
 	for (int i = 0; i < mapping_data.rows; i++)
@@ -95,7 +134,7 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 			{
 				tmp_die->setDieType(DieGraphicsItem::DieType::dNull);
 			}
-			else if(die_inside == 1)
+			else if (die_inside == 1)
 			{
 				tmp_die->setDieType(DieGraphicsItem::DieType::dCheckable);
 			}
@@ -113,7 +152,7 @@ void WaferGraphicsItem::setWafer(WaferType wType, WaferSizeEnum _wafer_size, QPo
 	wafer_size_index = _wafer_size;
 	m_wafer_type = wType;
 	mapping_data.wafer_size = wSizeList[_wafer_size];
-	wafer_real_radium = 0.5 * mapping_data.wafer_size-2;
+	wafer_real_radium = 0.5 * mapping_data.wafer_size - 2;
 	this->setPos(pos);
 	this->update();
 }
@@ -128,7 +167,7 @@ void WaferGraphicsItem::setWaferSize(WaferSizeEnum _wafer_size)
 {
 	wafer_size_index = _wafer_size;
 	mapping_data.wafer_size = wSizeList[_wafer_size];
-	wafer_real_radium = 0.5 * mapping_data.wafer_size-2;
+	wafer_real_radium = 0.5 * mapping_data.wafer_size - 2;
 	this->update();
 }
 
@@ -143,7 +182,7 @@ void WaferGraphicsItem::setRealWaferSize(qreal _real_size)
 	{
 		return;
 	}
-	wafer_real_radium = _real_size*0.5;
+	wafer_real_radium = _real_size * 0.5;
 }
 
 void WaferGraphicsItem::setWaferPos(QPoint pos)
@@ -175,15 +214,8 @@ void WaferGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 	painter->setBrush(m_brush);
 	painter->setRenderHint(QPainter::Antialiasing);
 	m_pen.setWidthF(0.1);
-	switch (m_wafer_type)
-	{
-	case WaferGraphicsItem::Notch:
-		break;
-	case WaferGraphicsItem::Flat:
-		break;
-	default:
-		break;
-	}
+
+	painter->rotate(mapping_data.flat_notch_angle);
 	//平口
 	if (mapping_data.flat_notch == 0)
 	{
@@ -193,18 +225,18 @@ void WaferGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 			mapping_data.wafer_size),
 			(-90 + 0.5 * wAnlge[wafer_size_index]) * 16,
 			(360 - wAnlge[wafer_size_index]) * 16);
-		
+
 		painter->setPen(m_pen);
 		painter->setBrush(Qt::NoBrush);
 		painter->drawArc(QRectF(-wafer_real_radium,
 			-wafer_real_radium,
-			2*wafer_real_radium,
-			2*wafer_real_radium),
+			2 * wafer_real_radium,
+			2 * wafer_real_radium),
 			(-90 + 0.5 * wAnlge[wafer_size_index]) * 16,
 			(360 - wAnlge[wafer_size_index]) * 16);
 	}
-	if(wAnlge[wafer_size_index] < 0 || mapping_data.flat_notch == 1)
-	{		
+	if (wAnlge[wafer_size_index] < 0 || mapping_data.flat_notch == 1)
+	{
 		painter->drawEllipse(m_center, 0.5 * mapping_data.wafer_size, 0.5 * mapping_data.wafer_size);
 		//缺口，开口角度90，槽深1.0mm
 		m_brush.setColor(Qt::gray);
@@ -212,8 +244,8 @@ void WaferGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 		painter->translate(0, 0.5 * mapping_data.wafer_size);
 		painter->rotate(45);
 		painter->drawRect(QRectF(
-			-0.5 * notchDeeoth, 
-			-0.5* notchDeeoth, 
+			-0.5 * notchDeeoth,
+			-0.5 * notchDeeoth,
 			notchDeeoth,
 			notchDeeoth));
 		painter->restore();
@@ -221,6 +253,51 @@ void WaferGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 		painter->setPen(m_pen);
 		painter->setBrush(Qt::NoBrush);
 		painter->drawEllipse(m_center, wafer_real_radium, wafer_real_radium);
+	}
+	painter->restore();
+	int gap = 1;
+	int lenght = 5;
+	QPointF pt0 = wafer_rect.bottomLeft();
+	QPointF ptl = wafer_rect.topLeft();
+	QPointF pt2 = wafer_rect.topRight();
+	QPointF pt3 = wafer_rect.bottomRight();
+
+	switch (mapping_data.pos_ori_loc)
+	{
+	case 0:
+		DrawLineWithArrow(*painter, m_pen,
+			wafer_rect.bottomLeft().toPoint() + QPoint(gap, -gap),
+			wafer_rect.bottomLeft().toPoint() + QPoint((gap + lenght), -gap));
+		DrawLineWithArrow(*painter, m_pen,
+			wafer_rect.bottomLeft().toPoint() + QPoint(gap, -gap),
+			wafer_rect.bottomLeft().toPoint() + QPoint(gap, -(gap + lenght)));
+		break;
+	case 1:
+		DrawLineWithArrow(*painter, m_pen,
+			wafer_rect.topLeft().toPoint() + QPoint(gap, gap),
+			wafer_rect.topLeft().toPoint() + QPoint((gap + lenght), gap));
+		DrawLineWithArrow(*painter, m_pen,
+			wafer_rect.topLeft().toPoint() + QPoint(gap, gap),
+			wafer_rect.topLeft().toPoint() + QPoint(gap, (gap + lenght)));
+		break;
+	case 2:
+		DrawLineWithArrow(*painter, m_pen,
+			wafer_rect.topRight().toPoint() + QPoint(-gap, gap),
+			wafer_rect.topRight().toPoint() + QPoint(-(gap + lenght), gap));
+		DrawLineWithArrow(*painter, m_pen,
+			wafer_rect.topRight().toPoint() + QPoint(-gap, gap),
+			wafer_rect.topRight().toPoint() + QPoint(-gap, (gap + lenght)));
+		break;
+	case 3:
+		DrawLineWithArrow(*painter, m_pen,
+			wafer_rect.bottomRight().toPoint() + QPoint(-gap, -gap),
+			wafer_rect.bottomRight().toPoint() + QPoint(-(gap + lenght), -gap));
+		DrawLineWithArrow(*painter, m_pen,
+			wafer_rect.bottomRight().toPoint() + QPoint(-gap, -gap),
+			wafer_rect.bottomRight().toPoint() + QPoint(-gap, -(gap + lenght)));
+		break;
+	default:
+		break;
 	}
 }
 

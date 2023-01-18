@@ -8,6 +8,8 @@
 #include "MappingData.h"
 #include "DieGraphicsItem.h"
 
+#define  M_PI 3.14159
+
 class WaferGraphicsItem
 	:public QObject, public QGraphicsItemGroup
 {
@@ -42,6 +44,7 @@ public:
 	qreal width();
 	qreal height();
 private:
+	void DrawLineWithArrow(QPainter& painter, QPen pen, QPoint start, QPoint end);
 	qreal getPointDist(QPointF point1, QPointF point2);
 private:
 	QList<QList<std::shared_ptr< DieGraphicsItem>>> m_mapping;

@@ -53,6 +53,8 @@ private slots:
 
     void on_lineEdit_realSize_textEdited(const QString &arg1);
 
+    void on_comboBox_startDir_currentIndexChanged(int index);
+
 private:
 	void testFunc();
 private:

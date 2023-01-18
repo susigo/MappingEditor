@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->verticalLayout->addWidget(mappingView);
 	mappingView->setMaximumWidth(1000);
 	this->resize(1200, 900);
-
+	on_btn_generateMapping_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -77,11 +77,12 @@ void MainWindow::on_btn_generateMapping_clicked()
 		ui->label_info->setText("Please enter a valid y step!");
 		return;
 	}
-    mapping.flat_notch = ui->comboBox_FlatNotch->currentIndex();
-    mapping.flat_notch_angle = ui->comboBox_FlatNotchDir->currentText().toInt();
+	mapping.pos_ori_loc = ui->comboBox_startDir->currentIndex();
+	mapping.flat_notch = ui->comboBox_FlatNotch->currentIndex();
+	mapping.flat_notch_angle = ui->comboBox_FlatNotchDir->currentText().toInt();
 	curWafer->setRealWaferSize(ui->lineEdit_realSize->text().toDouble());
 	curWafer->GennerateMapping(mapping);
-	
+
 	mappingView->DisplayMapping(*curWafer);
 	validOnce = true;
 	ui->label_info->setText("Mapping generated!");
@@ -184,8 +185,14 @@ void MainWindow::on_comboBox_waferSize_currentIndexChanged(int index)
 	on_btn_generateMapping_clicked();
 }
 
-void MainWindow::on_lineEdit_realSize_textEdited(const QString &arg1)
+void MainWindow::on_lineEdit_realSize_textEdited(const QString& arg1)
 {
-    on_btn_generateMapping_clicked();
+	on_btn_generateMapping_clicked();
+}
+
+
+void MainWindow::on_comboBox_startDir_currentIndexChanged(int index)
+{
+	on_btn_generateMapping_clicked();
 }
 

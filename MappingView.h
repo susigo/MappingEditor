@@ -12,7 +12,6 @@
 #include "DieGraphicsItem.h"
 #include "WaferGraphicsItem.h"
 
-#define  M_PI 3.14159
 
 class MappingView : public QGraphicsView
 {
@@ -32,7 +31,6 @@ public:
 	void DisplayMapping(WaferGraphicsItem& wafer);
 private:
 	void ParamInit();
-	void DrawLineWithArrow(QPainter& painter, QPen pen, QPoint start, QPoint end);
 	void FitShow();
 private:
 	QTransform m_transform;
