@@ -11,6 +11,7 @@ WaferGraphicsItem::WaferGraphicsItem(WaferType wType, WaferSizeEnum _wafer_size,
 		-0.5 * mapping_data.wafer_size,
 		mapping_data.wafer_size,
 		mapping_data.wafer_size);
+	setHandlesChildEvents(false);
 	m_pen.setWidth(1);
 	m_pen.setColor(Qt::darkBlue);
 }
@@ -82,6 +83,7 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 		mapping_data.wafer_size,
 		mapping_data.wafer_size);
 	this->setPos(mapping_data.center_x, mapping_data.center_y);
+	//this->setRotation(mapping_data.wafer_angle);
 	DieGraphicsItem::die_width = mapping_data.device_width;
 	DieGraphicsItem::die_height = mapping_data.device_height;
 
@@ -113,22 +115,34 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 	}
 	start_point.setX(mapping_data.ref_x - x_step * mapping_data.ref_col);
 	start_point.setY(mapping_data.ref_y - y_step * mapping_data.ref_row);
-	m_mapping.clear();
+	std::shared_ptr<DieGraphicsItem> tmp_die;
+	if (size_changed)
+	{
+		m_mapping.clear();
+		for (int i = 0; i < mapping_data.rows; i++)
+		{
+			m_mapping.append(QList<std::shared_ptr< DieGraphicsItem>>());
+
+			for (int j = 0; j < mapping_data.cols; j++)
+			{
+				tmp_die = std::make_shared<DieGraphicsItem>(this);
+				m_mapping[i].append(tmp_die);
+			}
+		}
+	}
 	int die_inside = -1;
 	for (int i = 0; i < mapping_data.rows; i++)
 	{
-		m_mapping.append(QList<std::shared_ptr< DieGraphicsItem>>());
-		std::shared_ptr<DieGraphicsItem> tmp_die;
 		for (int j = 0; j < mapping_data.cols; j++)
 		{
-			tmp_die = std::make_shared<DieGraphicsItem>(this);
+			tmp_die = m_mapping[i][j];
 			tmp_die->setPos(start_point + QPointF(j * x_step, i * y_step));
 			tmp_die->updateDie();
 			die_inside = isDieInside(&(*tmp_die));
 			if (die_inside == -1)
 			{
 				tmp_die->setDieType(DieGraphicsItem::DieType::dNull);
-				tmp_die->setVisible(false);
+				//tmp_die->setVisible(false);
 			}
 			else if (die_inside == 0)
 			{
@@ -142,9 +156,13 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 			{
 				tmp_die->setDieFuncType(DieGraphicsItem::DieFuncType::dRef);
 			}
-			m_mapping[i].append(tmp_die);
+			else
+			{
+				tmp_die->setDieFuncType(DieGraphicsItem::DieFuncType::dNormal);
+			}
 		}
 	}
+	size_changed = false;
 }
 
 void WaferGraphicsItem::setWafer(WaferType wType, WaferSizeEnum _wafer_size, QPoint pos /*= QPoint(0, 0)*/)
@@ -189,6 +207,11 @@ void WaferGraphicsItem::setWaferPos(QPoint pos)
 {
 	this->setPos(pos);
 	this->update();
+}
+
+void WaferGraphicsItem::sizeChanged()
+{
+	size_changed = true;
 }
 
 qreal WaferGraphicsItem::width()
@@ -254,7 +277,7 @@ void WaferGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 		painter->setBrush(Qt::NoBrush);
 		painter->drawEllipse(m_center, wafer_real_radium, wafer_real_radium);
 	}
-	painter->restore();
+	//painter->restore();
 	int gap = 1;
 	int lenght = 5;
 	QPointF pt0 = wafer_rect.bottomLeft();

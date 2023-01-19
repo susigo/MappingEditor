@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget* parent)
 	curWafer = new WaferGraphicsItem(WaferGraphicsItem::Flat, WaferGraphicsItem::Wafer150MM);
 	mappingView = new MappingView();
 	ui->verticalLayout->addWidget(mappingView);
-	mappingView->setMaximumWidth(1000);
+	//mappingView->setMaximumWidth(1000);
+	this->setMouseTracking(true);
 	this->resize(1200, 900);
 	on_btn_generateMapping_clicked();
 }
@@ -34,11 +35,20 @@ void MainWindow::on_btn_generateMapping_clicked()
 		ui->label_info->setText("Please enter a valid size!");
 		return;
 	}
+	bool size_changed = false;
+	if (mapping.cols != ui->spinBox_mappingCol->value())
+	{
+		size_changed = true;
+	}
 	mapping.cols = ui->spinBox_mappingCol->value();
 	if (mapping.cols == 0)
 	{
 		ui->label_info->setText("Please enter a valid cols!");
 		return;
+	}
+	if (mapping.rows != ui->spinBox_mappingRow->value())
+	{
+		size_changed = true;
 	}
 	mapping.rows = ui->spinBox_mappingRow->value();
 	if (mapping.rows == 0)
@@ -46,6 +56,8 @@ void MainWindow::on_btn_generateMapping_clicked()
 		ui->label_info->setText("Please enter a valid rows!");
 		return;
 	}
+
+
 	mapping.device_width = ui->lineEdit_width->text().toDouble();
 	if (mapping.device_width == 0)
 	{
@@ -80,9 +92,17 @@ void MainWindow::on_btn_generateMapping_clicked()
 	mapping.pos_ori_loc = ui->comboBox_startDir->currentIndex();
 	mapping.flat_notch = ui->comboBox_FlatNotch->currentIndex();
 	mapping.flat_notch_angle = ui->comboBox_FlatNotchDir->currentText().toInt();
+	mapping.center_x = ui->lineEdit_centerX->text().toDouble();
+	mapping.center_y = ui->lineEdit_centerY->text().toDouble();
+	mapping.wafer_angle = ui->lineEdit_angle->text().toDouble();
+
+	if (size_changed)
+	{
+		curWafer->sizeChanged();
+	}
+
 	curWafer->setRealWaferSize(ui->lineEdit_realSize->text().toDouble());
 	curWafer->GennerateMapping(mapping);
-
 	mappingView->DisplayMapping(*curWafer);
 	validOnce = true;
 	ui->label_info->setText("Mapping generated!");

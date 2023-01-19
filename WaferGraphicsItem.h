@@ -41,6 +41,7 @@ public:
 	double getWafersize(WaferSizeEnum _wafer_size);
 	void setRealWaferSize(qreal _real_size);
 	void setWaferPos(QPoint pos);
+	void sizeChanged();
 	qreal width();
 	qreal height();
 private:
@@ -55,6 +56,7 @@ private:
 	QBrush m_brush;
 	QPen m_pen;
 
+	bool size_changed = true;
 	double wafer_real_radium = 75.0;
 	QRectF wafer_rect;
 	double wSizeList[8] = { 50.8,76.2,100,125,150,200,300,450 };

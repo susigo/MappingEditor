@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>523</height>
+    <width>467</width>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="sizeConstraint">
-         <enum>QLayout::SetMinimumSize</enum>
+         <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -31,13 +31,13 @@
            <widget class="QLabel" name="label_3">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -107,13 +107,13 @@
            <widget class="QLabel" name="label_14">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -138,6 +138,114 @@
          </layout>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_19">
+          <item>
+           <widget class="QLabel" name="label_18">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>180</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wafer center x</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_centerX">
+            <property name="maximumSize">
+             <size>
+              <width>120</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <item>
+           <widget class="QLabel" name="label_17">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>180</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wafer center y</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_centerY">
+            <property name="maximumSize">
+             <size>
+              <width>120</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <item>
+           <widget class="QLabel" name="label_16">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>180</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wafer angle</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_angle">
+            <property name="maximumSize">
+             <size>
+              <width>120</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="Line" name="line">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -150,13 +258,13 @@
            <widget class="QLabel" name="label">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>80</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -180,7 +288,7 @@
              </size>
             </property>
             <property name="maximum">
-             <number>300</number>
+             <number>9999</number>
             </property>
             <property name="value">
              <number>10</number>
@@ -195,13 +303,13 @@
            <widget class="QLabel" name="label_2">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>80</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -225,7 +333,7 @@
              </size>
             </property>
             <property name="maximum">
-             <number>300</number>
+             <number>9999</number>
             </property>
             <property name="value">
              <number>10</number>
@@ -247,13 +355,13 @@
            <widget class="QLabel" name="label_4">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -289,13 +397,13 @@
            <widget class="QLabel" name="label_5">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -334,17 +442,20 @@
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetFixedSize</enum>
+          </property>
           <item>
            <widget class="QLabel" name="label_6">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -361,6 +472,9 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="maximum">
+             <number>9999</number>
+            </property>
            </widget>
           </item>
          </layout>
@@ -371,13 +485,13 @@
            <widget class="QLabel" name="label_7">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -394,6 +508,9 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="maximum">
+             <number>9999</number>
+            </property>
            </widget>
           </item>
          </layout>
@@ -404,13 +521,13 @@
            <widget class="QLabel" name="label_8">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -446,13 +563,13 @@
            <widget class="QLabel" name="label_9">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -493,9 +610,15 @@
          <layout class="QHBoxLayout" name="horizontalLayout_16">
           <item>
            <widget class="QLabel" name="label_15">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -550,13 +673,13 @@
            <widget class="QLabel" name="label_10">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>80</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -609,13 +732,13 @@
            <widget class="QLabel" name="label_11">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>80</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -665,13 +788,13 @@
            <widget class="QLabel" name="label_12">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -707,13 +830,13 @@
            <widget class="QLabel" name="label_13">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>16777215</height>
              </size>
             </property>
@@ -792,7 +915,15 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout"/>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label_19">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -803,7 +934,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>362</width>
+     <width>467</width>
      <height>17</height>
     </rect>
    </property>

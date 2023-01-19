@@ -20,6 +20,7 @@ typedef struct _MappingDataStruct
 	double device_width;
 	double device_height;
 
+	double wafer_angle;
 	double wafer_size;
 	double wafer_margin;
 	double flat_notch_margin;
@@ -49,6 +50,7 @@ public:
 		date = "2023/01/01";
 		dist_unit = "mm";
 		wafer_size = 150;
+		wafer_angle = 0.0;
 		device_width = 3.5;
 		device_height = 2.5;
 

@@ -1,4 +1,8 @@
 ﻿#include "DieGraphicsItem.h"
+#include <QGraphicsSceneHoverEvent>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+#include <QKeyEvent>
 
 DieGraphicsItem::DieGraphicsItem(
 	QGraphicsItemGroup* parent,
@@ -10,31 +14,19 @@ DieGraphicsItem::DieGraphicsItem(
 	m_brush = new QBrush();
 	die_type = DieType::dCheckable;
 	die_func_type = DieFuncType::dNormal;
+	selectedFlag = false;
 
 	m_brush->setColor(die_style.die_checkableColor);
-
 	setAcceptHoverEvents(true);
-	this->setFlags(QGraphicsItem::ItemIsSelectable |
+	this->setFlags(
+		QGraphicsItem::ItemIsSelectable |
 		QGraphicsItem::ItemIsFocusable);
 	m_brush->setStyle(Qt::SolidPattern);
 	die_rect = QRectF(-10, -10, 20, 20);
 	m_curColor = die_style.die_checkableColor;
 	hoverFlag = false;
-}
+	ctrlPressed = false;
 
-void DieGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
-{
-	Q_UNUSED(event);
-	hoverFlag = true;
-	this->update();
-
-}
-
-void DieGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
-{
-	Q_UNUSED(event);
-	hoverFlag = false;
-	this->update();
 }
 
 void DieGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget /* = nullptr */)
@@ -84,12 +76,12 @@ void DieGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 		}
 		painter->setBrush(*m_brush);
 		painter->drawRect(QRectF(
-			-0.5 * die_rect.width(), 
+			-0.5 * die_rect.width(),
 			-0.5 * die_rect.height(),
 			0.5 * die_rect.width(),
 			die_rect.height()));
 	}
-	if (hoverFlag)
+	if (hoverFlag || option->state & QStyle::State_Selected)
 	{
 		m_pen->setWidth(0.1 * die_width);
 		m_pen->setColor(die_style.die_hintColor);
@@ -102,10 +94,17 @@ void DieGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 	}
 }
 
+QPainterPath DieGraphicsItem::shape() const
+{
+	return rect_shape;
+}
+
 void DieGraphicsItem::updateDie()
 {
 	die_rect.setTopLeft(QPointF(-0.5 * die_width, -0.5 * die_height));
 	die_rect.setBottomRight(QPointF(0.5 * die_width, 0.5 * die_height));
+	rect_shape.clear();
+	rect_shape.addRect(die_rect);
 }
 
 void DieGraphicsItem::setDieType(DieType _die_type)
@@ -152,9 +151,32 @@ void DieGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 void DieGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
 	Q_UNUSED(event);
+	hoverFlag = true;
+	if (event->button() == Qt::RightButton)
+	{
+		this->setSelected(true);
+	}
 }
 
 void DieGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
 	Q_UNUSED(event);
+	hoverFlag = false;
+}
+
+void DieGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+{
+	QAbstractGraphicsShapeItem::hoverEnterEvent(event);
+	//Q_UNUSED(event);
+	hoverFlag = true;
+	this->update();
+
+}
+
+void DieGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+	QAbstractGraphicsShapeItem::hoverLeaveEvent(event);
+	//Q_UNUSED(event);
+	hoverFlag = false;
+	this->update();
 }

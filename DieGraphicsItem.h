@@ -25,7 +25,7 @@ public:
 	enum DieFuncType
 	{
 		dNormal = 0,//无特殊功能die
-		dRef ,//golden die
+		dRef,//golden die
 		dMark//mark die
 	};
 public:
@@ -37,12 +37,15 @@ public:
 	QPointF getDiePoints(int point_index);
 private:
 	bool hoverFlag;
+	bool selectedFlag;
+	bool ctrlPressed;
 	QRectF die_rect;
 	QColor	m_curColor;
 	QPen* m_pen;
 	QBrush* m_brush;
 	DieType die_type;//null,checkedbale,checked,ok,ng
 	DieFuncType die_func_type;//
+	QPainterPath rect_shape;
 public:
 	static qreal die_width;
 	static qreal die_height;
@@ -52,7 +55,7 @@ protected:
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget /* = nullptr */) override;
-	//	QPainterPath shape() const override;
+	QPainterPath shape() const override;
 	virtual QRectF boundingRect() const override;
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

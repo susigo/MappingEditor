@@ -1,6 +1,7 @@
 ﻿#include "MappingView.h"
 #include "DieGraphicsItem.h"
 #include <QMouseEvent>
+#include <QtOpenGL>
 
 qreal DieGraphicsItem::die_width;
 qreal DieGraphicsItem::die_height;
@@ -8,10 +9,17 @@ MappingStyle DieGraphicsItem::die_style;
 
 MappingView::MappingView()
 {
+#ifndef QT_NO_OPENGL
+	this->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+#endif
+
 	ParamInit();
 	this->setViewportUpdateMode(ViewportUpdateMode::FullViewportUpdate);
 	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->setDragMode(QGraphicsView::RubberBandDrag);
+	this->setMouseTracking(true);
+
 }
 
 void MappingView::DisplayMapping(MappingDataStruct& _mapping_data)
@@ -34,7 +42,7 @@ void MappingView::ParamInit()
 {
 	m_scene = new QGraphicsScene;
 	m_scene->setBackgroundBrush(Qt::gray);
-	m_scene->setSceneRect(-500, -500, 1000, 1000);
+	m_scene->setSceneRect(-800, -800, 1600, 1600);
 	this->setScene(m_scene);
 	m_painter = new QPainter;
 	draw_pen.setColor(Qt::white);
@@ -56,6 +64,33 @@ void MappingView::ParamInit()
 	//v_line->setVisible(false);
 	//h_line->setVisible(false);
 	//edge_circle->setVisible(true);
+
+	m_typeMenu = new QMenu();
+	QAction* tmp_action = new QAction("Null");
+	m_typeMenu->addAction(tmp_action);
+	connect(tmp_action, &QAction::trigger, this, [=]() {
+		onMenuAction(0);
+		});
+	tmp_action = new QAction("Skip");
+	m_typeMenu->addAction(tmp_action);
+	connect(tmp_action, &QAction::trigger, this, [=]() {
+		onMenuAction(1);
+		});
+	tmp_action = new QAction("Pass");
+	m_typeMenu->addAction(tmp_action);
+	connect(tmp_action, &QAction::trigger, this, [=]() {
+		onMenuAction(2);
+		});
+	tmp_action = new QAction("NG");
+	m_typeMenu->addAction(tmp_action);
+	connect(tmp_action, &QAction::trigger, this, [=]() {
+		onMenuAction(3);
+		});
+	tmp_action = new QAction("Checkable");
+	m_typeMenu->addAction(tmp_action);
+	connect(tmp_action, &QAction::trigger, this, [=]() {
+		onMenuAction(4);
+		});
 }
 
 void MappingView::FitShow()
@@ -84,12 +119,20 @@ void MappingView::FitShow()
 
 }
 
-void MappingView::paintEvent(QPaintEvent* event)
+void MappingView::onMenuAction(int _type)
 {
-	QGraphicsView::paintEvent(event);
+	if (m_scene->selectedItems().count() > 0)
+	{
+		qDebug() << "Seleted items " << m_scene->selectedItems().count();
+	}
+}
+
+//void MappingView::paintEvent(QPaintEvent* event)
+//{
+//	QGraphicsView::paintEvent(event);
 	//return;
 	//Q_UNUSED(event);
-	m_painter->begin(this->viewport());
+	//m_painter->begin(this->viewport());
 	//画坐标,白色，黑色
 	//DrawLineWithArrow(*m_painter, draw_pen, QPoint(20, 20), QPoint(50, 20));
 	//DrawLineWithArrow(*m_painter, draw_pen, QPoint(20, 20), QPoint(20, 50));
@@ -97,8 +140,8 @@ void MappingView::paintEvent(QPaintEvent* event)
 
 	//画行列
 
-	m_painter->end();
-}
+	//m_painter->end();
+//}
 
 void MappingView::mousePressEvent(QMouseEvent* event)
 {
@@ -114,6 +157,14 @@ void MappingView::mouseReleaseEvent(QMouseEvent* event)
 {
 	QGraphicsView::mouseReleaseEvent(event);
 	view_mode = ViewMode::tNone;
+	if (m_scene->selectedItems().count() > 0)
+	{
+		if (m_typeMenu)
+		{
+			m_typeMenu->exec(mapToGlobal(event->pos()));
+		}
+		//qDebug() << "Seleted items " << m_scene->selectedItems().count();
+	}
 }
 
 void MappingView::mouseMoveEvent(QMouseEvent* event)

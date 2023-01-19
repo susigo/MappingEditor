@@ -262,11 +262,15 @@ Makefile: MappingEditor.pro ..\..\..\..\Qt\5.15.2\msvc2019_64\mkspecs\win32-msvc
 		..\..\..\..\Qt\5.15.2\msvc2019_64\mkspecs\features\yacc.prf \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\mkspecs\features\lex.prf \
 		MappingEditor.pro \
+		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5OpenGL.prl \
+		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5PrintSupport.prl \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Widgets.prl \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Gui.prl \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Core.prl \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\qtmain.prl \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\mkspecs\features\build_pass.prf \
+		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5OpenGLd.prl \
+		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5PrintSupportd.prl \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.prl \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.prl \
 		..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.prl \
@@ -450,11 +454,15 @@ Makefile: MappingEditor.pro ..\..\..\..\Qt\5.15.2\msvc2019_64\mkspecs\win32-msvc
 ..\..\..\..\Qt\5.15.2\msvc2019_64\mkspecs\features\yacc.prf:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\mkspecs\features\lex.prf:
 MappingEditor.pro:
+..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5OpenGL.prl:
+..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5PrintSupport.prl:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Widgets.prl:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Gui.prl:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Core.prl:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\lib\qtmain.prl:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\mkspecs\features\build_pass.prf:
+..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5OpenGLd.prl:
+..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5PrintSupportd.prl:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.prl:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.prl:
 ..\..\..\..\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.prl:

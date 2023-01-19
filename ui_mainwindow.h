@@ -45,6 +45,15 @@ public:
     QHBoxLayout *horizontalLayout_15;
     QLabel *label_14;
     QLineEdit *lineEdit_realSize;
+    QHBoxLayout *horizontalLayout_19;
+    QLabel *label_18;
+    QLineEdit *lineEdit_centerX;
+    QHBoxLayout *horizontalLayout_18;
+    QLabel *label_17;
+    QLineEdit *lineEdit_centerY;
+    QHBoxLayout *horizontalLayout_17;
+    QLabel *label_16;
+    QLineEdit *lineEdit_angle;
     QFrame *line;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label;
@@ -94,6 +103,7 @@ public:
     QLabel *label_info;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout;
+    QLabel *label_19;
     QMenuBar *menubar;
     QMenu *menu;
     QStatusBar *statusbar;
@@ -102,7 +112,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(362, 523);
+        MainWindow->resize(467, 635);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionSave = new QAction(MainWindow);
@@ -115,14 +125,14 @@ public:
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        verticalLayout_2->setSizeConstraint(QLayout::SetMinimumSize);
+        verticalLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         horizontalLayout_4->setSizeConstraint(QLayout::SetMinimumSize);
         label_3 = new QLabel(centralwidget);
         label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setMinimumSize(QSize(120, 0));
-        label_3->setMaximumSize(QSize(120, 16777215));
+        label_3->setMinimumSize(QSize(150, 0));
+        label_3->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_4->addWidget(label_3);
 
@@ -147,8 +157,8 @@ public:
         horizontalLayout_15->setObjectName(QString::fromUtf8("horizontalLayout_15"));
         label_14 = new QLabel(centralwidget);
         label_14->setObjectName(QString::fromUtf8("label_14"));
-        label_14->setMinimumSize(QSize(120, 0));
-        label_14->setMaximumSize(QSize(120, 16777215));
+        label_14->setMinimumSize(QSize(150, 0));
+        label_14->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_15->addWidget(label_14);
 
@@ -161,6 +171,60 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_15);
 
+        horizontalLayout_19 = new QHBoxLayout();
+        horizontalLayout_19->setObjectName(QString::fromUtf8("horizontalLayout_19"));
+        label_18 = new QLabel(centralwidget);
+        label_18->setObjectName(QString::fromUtf8("label_18"));
+        label_18->setMinimumSize(QSize(150, 0));
+        label_18->setMaximumSize(QSize(180, 16777215));
+
+        horizontalLayout_19->addWidget(label_18);
+
+        lineEdit_centerX = new QLineEdit(centralwidget);
+        lineEdit_centerX->setObjectName(QString::fromUtf8("lineEdit_centerX"));
+        lineEdit_centerX->setMaximumSize(QSize(120, 16777215));
+
+        horizontalLayout_19->addWidget(lineEdit_centerX);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_19);
+
+        horizontalLayout_18 = new QHBoxLayout();
+        horizontalLayout_18->setObjectName(QString::fromUtf8("horizontalLayout_18"));
+        label_17 = new QLabel(centralwidget);
+        label_17->setObjectName(QString::fromUtf8("label_17"));
+        label_17->setMinimumSize(QSize(150, 0));
+        label_17->setMaximumSize(QSize(180, 16777215));
+
+        horizontalLayout_18->addWidget(label_17);
+
+        lineEdit_centerY = new QLineEdit(centralwidget);
+        lineEdit_centerY->setObjectName(QString::fromUtf8("lineEdit_centerY"));
+        lineEdit_centerY->setMaximumSize(QSize(120, 16777215));
+
+        horizontalLayout_18->addWidget(lineEdit_centerY);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_18);
+
+        horizontalLayout_17 = new QHBoxLayout();
+        horizontalLayout_17->setObjectName(QString::fromUtf8("horizontalLayout_17"));
+        label_16 = new QLabel(centralwidget);
+        label_16->setObjectName(QString::fromUtf8("label_16"));
+        label_16->setMinimumSize(QSize(150, 0));
+        label_16->setMaximumSize(QSize(180, 16777215));
+
+        horizontalLayout_17->addWidget(label_16);
+
+        lineEdit_angle = new QLineEdit(centralwidget);
+        lineEdit_angle->setObjectName(QString::fromUtf8("lineEdit_angle"));
+        lineEdit_angle->setMaximumSize(QSize(120, 16777215));
+
+        horizontalLayout_17->addWidget(lineEdit_angle);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_17);
+
         line = new QFrame(centralwidget);
         line->setObjectName(QString::fromUtf8("line"));
         line->setFrameShape(QFrame::HLine);
@@ -172,8 +236,8 @@ public:
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         label = new QLabel(centralwidget);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setMinimumSize(QSize(120, 0));
-        label->setMaximumSize(QSize(80, 16777215));
+        label->setMinimumSize(QSize(150, 0));
+        label->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_2->addWidget(label);
 
@@ -181,7 +245,7 @@ public:
         spinBox_mappingCol->setObjectName(QString::fromUtf8("spinBox_mappingCol"));
         spinBox_mappingCol->setMinimumSize(QSize(120, 0));
         spinBox_mappingCol->setMaximumSize(QSize(120, 16777215));
-        spinBox_mappingCol->setMaximum(300);
+        spinBox_mappingCol->setMaximum(9999);
         spinBox_mappingCol->setValue(10);
 
         horizontalLayout_2->addWidget(spinBox_mappingCol);
@@ -193,8 +257,8 @@ public:
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setMinimumSize(QSize(120, 0));
-        label_2->setMaximumSize(QSize(80, 16777215));
+        label_2->setMinimumSize(QSize(150, 0));
+        label_2->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_3->addWidget(label_2);
 
@@ -202,7 +266,7 @@ public:
         spinBox_mappingRow->setObjectName(QString::fromUtf8("spinBox_mappingRow"));
         spinBox_mappingRow->setMinimumSize(QSize(120, 0));
         spinBox_mappingRow->setMaximumSize(QSize(120, 16777215));
-        spinBox_mappingRow->setMaximum(300);
+        spinBox_mappingRow->setMaximum(9999);
         spinBox_mappingRow->setValue(10);
 
         horizontalLayout_3->addWidget(spinBox_mappingRow);
@@ -221,8 +285,8 @@ public:
         horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setMinimumSize(QSize(120, 0));
-        label_4->setMaximumSize(QSize(120, 16777215));
+        label_4->setMinimumSize(QSize(150, 0));
+        label_4->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_5->addWidget(label_4);
 
@@ -240,8 +304,8 @@ public:
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
         label_5 = new QLabel(centralwidget);
         label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setMinimumSize(QSize(120, 0));
-        label_5->setMaximumSize(QSize(120, 16777215));
+        label_5->setMinimumSize(QSize(150, 0));
+        label_5->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_6->addWidget(label_5);
 
@@ -264,16 +328,18 @@ public:
 
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
+        horizontalLayout_7->setSizeConstraint(QLayout::SetFixedSize);
         label_6 = new QLabel(centralwidget);
         label_6->setObjectName(QString::fromUtf8("label_6"));
-        label_6->setMinimumSize(QSize(120, 0));
-        label_6->setMaximumSize(QSize(120, 16777215));
+        label_6->setMinimumSize(QSize(150, 0));
+        label_6->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_7->addWidget(label_6);
 
         spinBox_refCol = new QSpinBox(centralwidget);
         spinBox_refCol->setObjectName(QString::fromUtf8("spinBox_refCol"));
         spinBox_refCol->setMaximumSize(QSize(120, 16777215));
+        spinBox_refCol->setMaximum(9999);
 
         horizontalLayout_7->addWidget(spinBox_refCol);
 
@@ -284,14 +350,15 @@ public:
         horizontalLayout_8->setObjectName(QString::fromUtf8("horizontalLayout_8"));
         label_7 = new QLabel(centralwidget);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setMinimumSize(QSize(120, 0));
-        label_7->setMaximumSize(QSize(120, 16777215));
+        label_7->setMinimumSize(QSize(150, 0));
+        label_7->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_8->addWidget(label_7);
 
         spinBox_refRow = new QSpinBox(centralwidget);
         spinBox_refRow->setObjectName(QString::fromUtf8("spinBox_refRow"));
         spinBox_refRow->setMaximumSize(QSize(120, 16777215));
+        spinBox_refRow->setMaximum(9999);
 
         horizontalLayout_8->addWidget(spinBox_refRow);
 
@@ -302,8 +369,8 @@ public:
         horizontalLayout_9->setObjectName(QString::fromUtf8("horizontalLayout_9"));
         label_8 = new QLabel(centralwidget);
         label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setMinimumSize(QSize(120, 0));
-        label_8->setMaximumSize(QSize(120, 16777215));
+        label_8->setMinimumSize(QSize(150, 0));
+        label_8->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_9->addWidget(label_8);
 
@@ -321,8 +388,8 @@ public:
         horizontalLayout_11->setObjectName(QString::fromUtf8("horizontalLayout_11"));
         label_9 = new QLabel(centralwidget);
         label_9->setObjectName(QString::fromUtf8("label_9"));
-        label_9->setMinimumSize(QSize(120, 0));
-        label_9->setMaximumSize(QSize(120, 16777215));
+        label_9->setMinimumSize(QSize(150, 0));
+        label_9->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_11->addWidget(label_9);
 
@@ -347,7 +414,8 @@ public:
         horizontalLayout_16->setObjectName(QString::fromUtf8("horizontalLayout_16"));
         label_15 = new QLabel(centralwidget);
         label_15->setObjectName(QString::fromUtf8("label_15"));
-        label_15->setMaximumSize(QSize(120, 16777215));
+        label_15->setMinimumSize(QSize(150, 0));
+        label_15->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_16->addWidget(label_15);
 
@@ -369,8 +437,8 @@ public:
         horizontalLayout_12->setObjectName(QString::fromUtf8("horizontalLayout_12"));
         label_10 = new QLabel(centralwidget);
         label_10->setObjectName(QString::fromUtf8("label_10"));
-        label_10->setMinimumSize(QSize(120, 0));
-        label_10->setMaximumSize(QSize(80, 16777215));
+        label_10->setMinimumSize(QSize(150, 0));
+        label_10->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_12->addWidget(label_10);
 
@@ -392,8 +460,8 @@ public:
         horizontalLayout_13->setObjectName(QString::fromUtf8("horizontalLayout_13"));
         label_11 = new QLabel(centralwidget);
         label_11->setObjectName(QString::fromUtf8("label_11"));
-        label_11->setMinimumSize(QSize(120, 0));
-        label_11->setMaximumSize(QSize(80, 16777215));
+        label_11->setMinimumSize(QSize(150, 0));
+        label_11->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_13->addWidget(label_11);
 
@@ -420,8 +488,8 @@ public:
         horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
         label_12 = new QLabel(centralwidget);
         label_12->setObjectName(QString::fromUtf8("label_12"));
-        label_12->setMinimumSize(QSize(120, 0));
-        label_12->setMaximumSize(QSize(120, 16777215));
+        label_12->setMinimumSize(QSize(150, 0));
+        label_12->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_10->addWidget(label_12);
 
@@ -439,8 +507,8 @@ public:
         horizontalLayout_14->setObjectName(QString::fromUtf8("horizontalLayout_14"));
         label_13 = new QLabel(centralwidget);
         label_13->setObjectName(QString::fromUtf8("label_13"));
-        label_13->setMinimumSize(QSize(120, 0));
-        label_13->setMaximumSize(QSize(120, 16777215));
+        label_13->setMinimumSize(QSize(150, 0));
+        label_13->setMaximumSize(QSize(180, 16777215));
 
         horizontalLayout_14->addWidget(label_13);
 
@@ -482,6 +550,11 @@ public:
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        label_19 = new QLabel(centralwidget);
+        label_19->setObjectName(QString::fromUtf8("label_19"));
+
+        verticalLayout->addWidget(label_19);
+
 
         horizontalLayout->addLayout(verticalLayout);
 
@@ -491,7 +564,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 362, 17));
+        menubar->setGeometry(QRect(0, 0, 467, 17));
         menu = new QMenu(menubar);
         menu->setObjectName(QString::fromUtf8("menu"));
         MainWindow->setMenuBar(menubar);
@@ -529,6 +602,12 @@ public:
 
         label_14->setText(QCoreApplication::translate("MainWindow", "Wafer Real Size", nullptr));
         lineEdit_realSize->setText(QCoreApplication::translate("MainWindow", "145", nullptr));
+        label_18->setText(QCoreApplication::translate("MainWindow", "Wafer center x", nullptr));
+        lineEdit_centerX->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
+        label_17->setText(QCoreApplication::translate("MainWindow", "Wafer center y", nullptr));
+        lineEdit_centerY->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
+        label_16->setText(QCoreApplication::translate("MainWindow", "Wafer angle", nullptr));
+        lineEdit_angle->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Mapping Cols", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Mapping Rows", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "Device Width(mm)", nullptr));
@@ -564,6 +643,7 @@ public:
         lineEdit_yStep->setText(QCoreApplication::translate("MainWindow", "2.8", nullptr));
         btn_generateMapping->setText(QCoreApplication::translate("MainWindow", "\347\224\237\346\210\220", nullptr));
         label_info->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        label_19->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266", nullptr));
     } // retranslateUi
 

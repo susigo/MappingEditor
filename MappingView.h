@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QGraphicsLineItem>
 #include <QGraphicsEllipseItem>
+#include <QMenu>
 #include "MappingData.h"
 #include "DieGraphicsItem.h"
 #include "WaferGraphicsItem.h"
@@ -32,6 +33,8 @@ public:
 private:
 	void ParamInit();
 	void FitShow();
+private slots:
+	void onMenuAction(int);
 private:
 	QTransform m_transform;
 	QPointF m_centerPos;
@@ -47,9 +50,9 @@ private:
 	QPointF m_cur_pos_view;
 	QPointF m_cur_pos_scene;
 	QPointF m_lastMousePos;
-
+	QMenu* m_typeMenu;
 protected:
-	virtual void paintEvent(QPaintEvent* event) override;
+	//virtual void paintEvent(QPaintEvent* event) override;
 
 	virtual void mousePressEvent(QMouseEvent* event) override;
 
