@@ -16,6 +16,7 @@ public:
 	enum DieType
 	{
 		dNull = 0,//空的
+		dSkip,//跳过
 		dCheckable,//可检测的
 		dChecked,//待检测的
 		dOk,//检测合格的
@@ -33,7 +34,9 @@ public:
 	~DieGraphicsItem() = default;
 	void updateDie();
 	void setDieType(DieType _die_type);
+	DieType getDieType();
 	void setDieFuncType(DieFuncType _die_func_type);
+	DieFuncType getDieFuncType();
 	QPointF getDiePoints(int point_index);
 private:
 	bool hoverFlag;

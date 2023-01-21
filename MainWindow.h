@@ -55,6 +55,8 @@ private slots:
 
     void on_comboBox_startDir_currentIndexChanged(int index);
 
+    void on_btn_saveMapping_clicked();
+
 private:
 	void testFunc();
 private:

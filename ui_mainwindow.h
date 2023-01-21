@@ -99,7 +99,9 @@ public:
     QLabel *label_13;
     QLineEdit *lineEdit_yStep;
     QFrame *line_2;
-    QPushButton *btn_generateMapping;
+    QHBoxLayout *horizontalLayout_20;
+    QComboBox *comboBox_format;
+    QPushButton *btn_saveMapping;
     QLabel *label_info;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout;
@@ -246,7 +248,7 @@ public:
         spinBox_mappingCol->setMinimumSize(QSize(120, 0));
         spinBox_mappingCol->setMaximumSize(QSize(120, 16777215));
         spinBox_mappingCol->setMaximum(9999);
-        spinBox_mappingCol->setValue(10);
+        spinBox_mappingCol->setValue(39);
 
         horizontalLayout_2->addWidget(spinBox_mappingCol);
 
@@ -267,7 +269,7 @@ public:
         spinBox_mappingRow->setMinimumSize(QSize(120, 0));
         spinBox_mappingRow->setMaximumSize(QSize(120, 16777215));
         spinBox_mappingRow->setMaximum(9999);
-        spinBox_mappingRow->setValue(10);
+        spinBox_mappingRow->setValue(48);
 
         horizontalLayout_3->addWidget(spinBox_mappingRow);
 
@@ -340,6 +342,7 @@ public:
         spinBox_refCol->setObjectName(QString::fromUtf8("spinBox_refCol"));
         spinBox_refCol->setMaximumSize(QSize(120, 16777215));
         spinBox_refCol->setMaximum(9999);
+        spinBox_refCol->setValue(19);
 
         horizontalLayout_7->addWidget(spinBox_refCol);
 
@@ -359,6 +362,7 @@ public:
         spinBox_refRow->setObjectName(QString::fromUtf8("spinBox_refRow"));
         spinBox_refRow->setMaximumSize(QSize(120, 16777215));
         spinBox_refRow->setMaximum(9999);
+        spinBox_refRow->setValue(25);
 
         horizontalLayout_8->addWidget(spinBox_refRow);
 
@@ -529,11 +533,29 @@ public:
 
         verticalLayout_2->addWidget(line_2);
 
-        btn_generateMapping = new QPushButton(centralwidget);
-        btn_generateMapping->setObjectName(QString::fromUtf8("btn_generateMapping"));
-        btn_generateMapping->setMaximumSize(QSize(120, 16777215));
+        horizontalLayout_20 = new QHBoxLayout();
+        horizontalLayout_20->setObjectName(QString::fromUtf8("horizontalLayout_20"));
+        comboBox_format = new QComboBox(centralwidget);
+        comboBox_format->addItem(QString());
+        comboBox_format->addItem(QString());
+        comboBox_format->addItem(QString());
+        comboBox_format->addItem(QString());
+        comboBox_format->addItem(QString());
+        comboBox_format->addItem(QString());
+        comboBox_format->addItem(QString());
+        comboBox_format->setObjectName(QString::fromUtf8("comboBox_format"));
+        comboBox_format->setMaximumSize(QSize(150, 16777215));
 
-        verticalLayout_2->addWidget(btn_generateMapping);
+        horizontalLayout_20->addWidget(comboBox_format);
+
+        btn_saveMapping = new QPushButton(centralwidget);
+        btn_saveMapping->setObjectName(QString::fromUtf8("btn_saveMapping"));
+        btn_saveMapping->setMaximumSize(QSize(120, 16777215));
+
+        horizontalLayout_20->addWidget(btn_saveMapping);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_20);
 
         label_info = new QLabel(centralwidget);
         label_info->setObjectName(QString::fromUtf8("label_info"));
@@ -601,7 +623,7 @@ public:
         comboBox_waferSize->setItemText(7, QCoreApplication::translate("MainWindow", "450", nullptr));
 
         label_14->setText(QCoreApplication::translate("MainWindow", "Wafer Real Size", nullptr));
-        lineEdit_realSize->setText(QCoreApplication::translate("MainWindow", "145", nullptr));
+        lineEdit_realSize->setText(QCoreApplication::translate("MainWindow", "135", nullptr));
         label_18->setText(QCoreApplication::translate("MainWindow", "Wafer center x", nullptr));
         lineEdit_centerX->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
         label_17->setText(QCoreApplication::translate("MainWindow", "Wafer center y", nullptr));
@@ -641,7 +663,15 @@ public:
         lineEdit_xStep->setText(QCoreApplication::translate("MainWindow", "3.8", nullptr));
         label_13->setText(QCoreApplication::translate("MainWindow", "y step(mm)", nullptr));
         lineEdit_yStep->setText(QCoreApplication::translate("MainWindow", "2.8", nullptr));
-        btn_generateMapping->setText(QCoreApplication::translate("MainWindow", "\347\224\237\346\210\220", nullptr));
+        comboBox_format->setItemText(0, QCoreApplication::translate("MainWindow", "DIGIT(.digi)", nullptr));
+        comboBox_format->setItemText(1, QCoreApplication::translate("MainWindow", "IBIS(.xml)", nullptr));
+        comboBox_format->setItemText(2, QCoreApplication::translate("MainWindow", "SINF(.sinf)", nullptr));
+        comboBox_format->setItemText(3, QCoreApplication::translate("MainWindow", "ASY(.asy)", nullptr));
+        comboBox_format->setItemText(4, QCoreApplication::translate("MainWindow", "KLARF(.klarf)", nullptr));
+        comboBox_format->setItemText(5, QCoreApplication::translate("MainWindow", "STIF(.stif)", nullptr));
+        comboBox_format->setItemText(6, QCoreApplication::translate("MainWindow", "SEMI E142(.xml)", nullptr));
+
+        btn_saveMapping->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
         label_info->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         label_19->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266", nullptr));

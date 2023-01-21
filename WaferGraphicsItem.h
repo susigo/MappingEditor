@@ -34,6 +34,9 @@ public:
 	~WaferGraphicsItem() = default;
 	void GennerateMapping(MappingDataStruct& mapping_data);
 
+	void saveAsDigi(QString file_path);
+	MappingDataStruct readFromDigi(QString file_path);
+
 	int isDieInside(DieGraphicsItem* die);
 	void setWafer(WaferType wType, WaferSizeEnum _wafer_size, QPoint pos = QPoint(0, 0));
 	void setWaferType(WaferType wType);

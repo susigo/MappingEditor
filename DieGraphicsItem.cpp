@@ -41,6 +41,9 @@ void DieGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 	case DieGraphicsItem::dNull:
 		m_brush->setColor(die_style.die_nullColor);
 		break;
+	case DieGraphicsItem::dSkip:
+		m_brush->setColor(die_style.die_skipColor);
+		break;
 	case DieGraphicsItem::dCheckable:
 		m_brush->setColor(die_style.die_checkableColor);
 		break;
@@ -112,9 +115,19 @@ void DieGraphicsItem::setDieType(DieType _die_type)
 	die_type = _die_type;
 }
 
+DieGraphicsItem::DieType DieGraphicsItem::getDieType()
+{
+	return die_type;
+}
+
 void DieGraphicsItem::setDieFuncType(DieFuncType _die_func_type)
 {
 	die_func_type = _die_func_type;
+}
+
+DieGraphicsItem::DieFuncType DieGraphicsItem::getDieFuncType()
+{
+	return die_func_type;
 }
 
 QPointF DieGraphicsItem::getDiePoints(int point_index)

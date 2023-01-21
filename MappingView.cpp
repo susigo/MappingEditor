@@ -14,7 +14,7 @@ MappingView::MappingView()
 #endif
 
 	ParamInit();
-	this->setViewportUpdateMode(ViewportUpdateMode::FullViewportUpdate);
+	this->setViewportUpdateMode(ViewportUpdateMode::SmartViewportUpdate);
 	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	this->setDragMode(QGraphicsView::RubberBandDrag);
@@ -68,27 +68,27 @@ void MappingView::ParamInit()
 	m_typeMenu = new QMenu();
 	QAction* tmp_action = new QAction("Null");
 	m_typeMenu->addAction(tmp_action);
-	connect(tmp_action, &QAction::trigger, this, [=]() {
+	connect(tmp_action, &QAction::triggered, this, [=]() {
 		onMenuAction(0);
 		});
 	tmp_action = new QAction("Skip");
 	m_typeMenu->addAction(tmp_action);
-	connect(tmp_action, &QAction::trigger, this, [=]() {
+	connect(tmp_action, &QAction::triggered, this, [=]() {
 		onMenuAction(1);
 		});
 	tmp_action = new QAction("Pass");
 	m_typeMenu->addAction(tmp_action);
-	connect(tmp_action, &QAction::trigger, this, [=]() {
+	connect(tmp_action, &QAction::triggered, this, [=]() {
 		onMenuAction(2);
 		});
 	tmp_action = new QAction("NG");
 	m_typeMenu->addAction(tmp_action);
-	connect(tmp_action, &QAction::trigger, this, [=]() {
+	connect(tmp_action, &QAction::triggered, this, [=]() {
 		onMenuAction(3);
 		});
 	tmp_action = new QAction("Checkable");
 	m_typeMenu->addAction(tmp_action);
-	connect(tmp_action, &QAction::trigger, this, [=]() {
+	connect(tmp_action, &QAction::triggered, this, [=]() {
 		onMenuAction(4);
 		});
 }
@@ -123,7 +123,36 @@ void MappingView::onMenuAction(int _type)
 {
 	if (m_scene->selectedItems().count() > 0)
 	{
-		qDebug() << "Seleted items " << m_scene->selectedItems().count();
+		//qDebug() << "Seleted items " << m_scene->selectedItems().count();
+		DieGraphicsItem* tmp_die = nullptr;
+		for (auto elem : m_scene->selectedItems())
+		{
+			tmp_die = dynamic_cast<DieGraphicsItem*>(elem);
+			if (tmp_die != nullptr)
+			{
+				switch (_type)
+				{
+				case 0:
+					tmp_die->setDieType(DieGraphicsItem::dNull);
+					break;
+				case 1:
+					tmp_die->setDieType(DieGraphicsItem::dSkip);
+					break;
+				case 2:
+					tmp_die->setDieType(DieGraphicsItem::dOk);
+					break;
+				case 3:
+					tmp_die->setDieType(DieGraphicsItem::dNG);
+					break;
+				case 4:
+					tmp_die->setDieType(DieGraphicsItem::dCheckable);
+					break;
+				default:
+					break;
+				}
+				tmp_die->setSelected(false);
+			}
+		}
 	}
 }
 
@@ -163,7 +192,6 @@ void MappingView::mouseReleaseEvent(QMouseEvent* event)
 		{
 			m_typeMenu->exec(mapToGlobal(event->pos()));
 		}
-		//qDebug() << "Seleted items " << m_scene->selectedItems().count();
 	}
 }
 

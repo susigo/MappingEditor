@@ -216,3 +216,17 @@ void MainWindow::on_comboBox_startDir_currentIndexChanged(int index)
 	on_btn_generateMapping_clicked();
 }
 
+
+void MainWindow::on_btn_saveMapping_clicked()
+{
+	switch (ui->comboBox_format->currentIndex())
+	{
+	case 0:
+		//digit
+		curWafer->saveAsDigi("test.digit");
+		break;
+	default:
+		break;
+	}
+}
+

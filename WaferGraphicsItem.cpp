@@ -1,4 +1,6 @@
 ﻿#include "WaferGraphicsItem.h"
+#include <fstream>
+#include <QFile>
 
 WaferGraphicsItem::WaferGraphicsItem(WaferType wType, WaferSizeEnum _wafer_size, QPoint pos /*= QPoint(0, 0)*/)
 {
@@ -138,11 +140,12 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 			tmp_die = m_mapping[i][j];
 			tmp_die->setPos(start_point + QPointF(j * x_step, i * y_step));
 			tmp_die->updateDie();
+			tmp_die->setVisible(true);
 			die_inside = isDieInside(&(*tmp_die));
 			if (die_inside == -1)
 			{
 				tmp_die->setDieType(DieGraphicsItem::DieType::dNull);
-				//tmp_die->setVisible(false);
+				tmp_die->setVisible(false);
 			}
 			else if (die_inside == 0)
 			{
@@ -163,6 +166,64 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 		}
 	}
 	size_changed = false;
+}
+
+void WaferGraphicsItem::saveAsDigi(QString file_path)
+{
+	//.digi
+	std::ofstream stream;
+	stream.open(file_path.toStdString());
+	for (int i = 0; i < m_mapping.count(); i++)
+	{
+		QString tmp_line;
+		for (int j = 0; j < m_mapping[i].count(); j++)
+		{
+			switch (m_mapping[i][j]->getDieType())
+			{
+			case DieGraphicsItem::dNull:
+				tmp_line.append('_');
+				break;
+			case DieGraphicsItem::dCheckable:
+				tmp_line.append('1');
+				break;
+			case DieGraphicsItem::dOk:
+				tmp_line.append('1');
+				break;
+			case DieGraphicsItem::dNG:
+				tmp_line.append('0');
+				break;
+			case DieGraphicsItem::dSkip:
+				tmp_line.append('1');
+				break;
+			}
+			switch (m_mapping[i][j]->getDieFuncType())
+			{
+			case DieGraphicsItem::dRef:
+				tmp_line.append('R');
+				break;
+			default:
+				break;
+			}
+		}
+		tmp_line += '\n';
+		stream << tmp_line.toStdString();
+	}
+	stream.close();
+}
+
+MappingDataStruct WaferGraphicsItem::readFromDigi(QString file_path)
+{
+	MappingDataStruct tmp_mappingdata;
+	//digit 格式只有行列信息，没有尺寸与位置信息。
+	QFile tmp_file(file_path);
+	QByteArray tmp_line;
+	while (tmp_file.canReadLine())
+	{
+		tmp_line = tmp_file.readLine();
+
+	}
+
+	return tmp_mappingdata;
 }
 
 void WaferGraphicsItem::setWafer(WaferType wType, WaferSizeEnum _wafer_size, QPoint pos /*= QPoint(0, 0)*/)

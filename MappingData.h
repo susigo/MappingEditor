@@ -79,6 +79,7 @@ typedef struct _MappingStyle
 	QColor die_checkableColor = "#E5A884";//可检颜色
 	QColor die_checkColor = "#819ED6";//待检颜色
 	QColor die_substribeColor = "#6F8792";//基板颜色
+	QColor die_skipColor = "#6F8792";
 	QColor die_nullColor = "#344C74";
 	QColor die_refColor = "#1AA6F6";
 	QColor die_markColor = "#512F20";
