@@ -214,13 +214,42 @@ void WaferGraphicsItem::saveAsDigi(QString file_path)
 MappingDataStruct WaferGraphicsItem::readFromDigi(QString file_path)
 {
 	MappingDataStruct tmp_mappingdata;
+	QList<QList<std::shared_ptr< DieGraphicsItem>>> tmp_mapping;
 	//digit 格式只有行列信息，没有尺寸与位置信息。
 	QFile tmp_file(file_path);
 	QByteArray tmp_line;
+	int mapping_rows = 0;
+	std::shared_ptr<DieGraphicsItem> tmp_die;
 	while (tmp_file.canReadLine())
 	{
+		tmp_mapping.append(QList< std::shared_ptr< DieGraphicsItem>>());
 		tmp_line = tmp_file.readLine();
+		int mapping_cols = tmp_line.count() - 1;
 
+		for (auto elem : tmp_line)
+		{
+			if (elem == '\n')
+			{
+				break;
+			}
+			tmp_die = std::make_shared<DieGraphicsItem>();
+			switch (elem)
+			{
+			case '_':
+				tmp_mapping[mapping_rows].push_back(tmp_die);
+				break;
+			case '1':
+				break;
+			case '0':
+				break;
+			case 'R':
+				break;
+			default:
+				break;
+			}
+		}
+
+		mapping_rows++;
 	}
 
 	return tmp_mappingdata;
