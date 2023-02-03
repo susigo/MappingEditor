@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include "MappingView.h"
+#include "WaferPixmapItem.h"
 #include "WaferGraphicsItem.h"
+#include "GLWaferView.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -51,20 +53,23 @@ private slots:
 
 	void on_comboBox_waferSize_currentIndexChanged(int index);
 
-    void on_lineEdit_realSize_textEdited(const QString &arg1);
+	void on_lineEdit_realSize_textEdited(const QString& arg1);
 
-    void on_comboBox_startDir_currentIndexChanged(int index);
+	void on_comboBox_startDir_currentIndexChanged(int index);
 
-    void on_btn_saveMapping_clicked();
+	void on_btn_saveMapping_clicked();
+
+	void on_btn_sizeComform_clicked();
 
 private:
 	void testFunc();
 private:
 	Ui::MainWindow* ui;
 	MappingView* mappingView;
+	GLWaferView* glwafeeView;
 	MappingDataStruct mapping;
 	WaferGraphicsItem* curWafer;
-	bool validOnce;
+	//bool validOnce;
 	//double wSizeList[8] = { 50.8,76.2,100,125,150,200,300,450 };
 };
 #endif // MAINWINDOW_H

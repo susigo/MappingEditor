@@ -13,17 +13,23 @@ CONFIG += c++17
 
 SOURCES += \
     DieGraphicsItem.cpp \
+    GLWaferView.cpp \
     MappingView.cpp \
     WaferGraphicsItem.cpp \
+    WaferGridItem.cpp \
+    WaferPixmapItem.cpp \
     main.cpp \
     MainWindow.cpp
 
 HEADERS += \
     DieGraphicsItem.h \
+    GLWaferView.h \
     MainWindow.h \
     MappingData.h \
     MappingView.h \
-    WaferGraphicsItem.h
+    WaferGraphicsItem.h \
+    WaferGridItem.h \
+    WaferPixmapItem.h
 
 FORMS += \
     mainwindow.ui

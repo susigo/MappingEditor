@@ -1,8 +1,18 @@
 ﻿#include "WaferGraphicsItem.h"
 #include <fstream>
 #include <QFile>
+#include <QDebug>
 
-WaferGraphicsItem::WaferGraphicsItem(WaferType wType, WaferSizeEnum _wafer_size, QPoint pos /*= QPoint(0, 0)*/)
+#define  M_PI 3.14159
+
+QMap<int, QVector<std::shared_ptr< DieGraphicsItem>>>
+WaferGraphicsItem::m_mapping;
+
+WaferGraphicsItem::WaferGraphicsItem(
+	WaferType wType,
+	WaferSizeEnum _wafer_size,
+	QPoint pos /*= QPoint(0, 0)*/) :
+	QGraphicsItemGroup(nullptr)
 {
 	m_wafer_type = wType;
 	wafer_size_index = _wafer_size;
@@ -16,6 +26,8 @@ WaferGraphicsItem::WaferGraphicsItem(WaferType wType, WaferSizeEnum _wafer_size,
 	setHandlesChildEvents(false);
 	m_pen.setWidth(1);
 	m_pen.setColor(Qt::darkBlue);
+
+
 }
 
 void WaferGraphicsItem::DrawLineWithArrow(QPainter& painter, QPen pen, QPoint start, QPoint end)
@@ -71,16 +83,16 @@ int WaferGraphicsItem::isDieInside(DieGraphicsItem* die)
 		return 0;
 	}
 	else if (max_dist > 0.5 * mapping_data.wafer_size) {
-		return -1;
+		return 0;
 	}
 }
 
-void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
+void WaferGraphicsItem::setWaferDate(MappingDataStruct& _mapping_data)
 {
 	mapping_data = _mapping_data;
 	wafer_size_index = (WaferSizeEnum)_mapping_data.wafer_size;
-	mapping_data.wafer_size = wSizeList[wafer_size_index];
-	wafer_rect = QRectF(-0.5 * mapping_data.wafer_size,
+	_mapping_data.wafer_size = wSizeList[wafer_size_index];
+	wafer_rect = QRectF(-0.5 * _mapping_data.wafer_size,
 		-0.5 * mapping_data.wafer_size,
 		mapping_data.wafer_size,
 		mapping_data.wafer_size);
@@ -89,83 +101,33 @@ void WaferGraphicsItem::GennerateMapping(MappingDataStruct& _mapping_data)
 	DieGraphicsItem::die_width = mapping_data.device_width;
 	DieGraphicsItem::die_height = mapping_data.device_height;
 
-	qreal x_step = 0;
-	qreal y_step = 0;
-	QPointF start_point;
-
 	//根据起始点的方位确定步长的符号
 	switch (mapping_data.pos_ori_loc)
 	{
 	case 0:
-		x_step = mapping_data.x_step;
-		y_step = -mapping_data.y_step;
+		_mapping_data.d_x_step = mapping_data.x_step;
+		_mapping_data.d_y_step = -mapping_data.y_step;
 		break;
 	case 1:
-		x_step = mapping_data.x_step;
-		y_step = mapping_data.y_step;
+		_mapping_data.d_x_step = mapping_data.x_step;
+		_mapping_data.d_y_step = mapping_data.y_step;
 		break;
 	case 2:
-		x_step = -mapping_data.x_step;
-		y_step = mapping_data.y_step;
+		_mapping_data.d_x_step = -mapping_data.x_step;
+		_mapping_data.d_y_step = mapping_data.y_step;
 		break;
 	case 3:
-		x_step = -mapping_data.x_step;
-		y_step = -mapping_data.y_step;
+		_mapping_data.d_x_step = -mapping_data.x_step;
+		_mapping_data.d_y_step = -mapping_data.y_step;
 		break;
 	default:
 		break;
 	}
-	start_point.setX(mapping_data.ref_x - x_step * mapping_data.ref_col);
-	start_point.setY(mapping_data.ref_y - y_step * mapping_data.ref_row);
-	std::shared_ptr<DieGraphicsItem> tmp_die;
-	if (size_changed)
-	{
-		m_mapping.clear();
-		for (int i = 0; i < mapping_data.rows; i++)
-		{
-			m_mapping.append(QList<std::shared_ptr< DieGraphicsItem>>());
+	_mapping_data.start_point.setX(mapping_data.ref_x - _mapping_data.d_x_step * mapping_data.ref_col);
+	_mapping_data.start_point.setY(mapping_data.ref_y - _mapping_data.d_y_step * mapping_data.ref_row);
+	//m_mapping.clear();
+	//m_mapping.resize(_mapping_data.rows);
 
-			for (int j = 0; j < mapping_data.cols; j++)
-			{
-				tmp_die = std::make_shared<DieGraphicsItem>(this);
-				m_mapping[i].append(tmp_die);
-			}
-		}
-	}
-	int die_inside = -1;
-	for (int i = 0; i < mapping_data.rows; i++)
-	{
-		for (int j = 0; j < mapping_data.cols; j++)
-		{
-			tmp_die = m_mapping[i][j];
-			tmp_die->setPos(start_point + QPointF(j * x_step, i * y_step));
-			tmp_die->updateDie();
-			tmp_die->setVisible(true);
-			die_inside = isDieInside(&(*tmp_die));
-			if (die_inside == -1)
-			{
-				tmp_die->setDieType(DieGraphicsItem::DieType::dNull);
-				tmp_die->setVisible(false);
-			}
-			else if (die_inside == 0)
-			{
-				tmp_die->setDieType(DieGraphicsItem::DieType::dNull);
-			}
-			else if (die_inside == 1)
-			{
-				tmp_die->setDieType(DieGraphicsItem::DieType::dCheckable);
-			}
-			if (i == mapping_data.ref_row && j == mapping_data.ref_col)
-			{
-				tmp_die->setDieFuncType(DieGraphicsItem::DieFuncType::dRef);
-			}
-			else
-			{
-				tmp_die->setDieFuncType(DieGraphicsItem::DieFuncType::dNormal);
-			}
-		}
-	}
-	size_changed = false;
 }
 
 void WaferGraphicsItem::saveAsDigi(QString file_path)
@@ -209,6 +171,17 @@ void WaferGraphicsItem::saveAsDigi(QString file_path)
 		stream << tmp_line.toStdString();
 	}
 	stream.close();
+}
+
+void WaferGraphicsItem::clearDies()
+{
+	//m_mapping.clear();
+}
+
+void WaferGraphicsItem::resizeDies(int rows)
+{
+	//m_mapping.clear();
+	//m_mapping.resize(rows);
 }
 
 MappingDataStruct WaferGraphicsItem::readFromDigi(QString file_path)
@@ -318,6 +291,85 @@ qreal WaferGraphicsItem::getPointDist(QPointF point1, QPointF point2)
 {
 	QPointF diff = point2 - point1;
 	return std::sqrtf(std::powf(diff.x(), 2) + std::powf(diff.y(), 2));
+}
+
+void WaferGraphicsItem::dieStyleUpdate(std::shared_ptr< DieGraphicsItem> elem, int die_inside)
+{
+	if (die_inside == -1)
+	{
+		elem->setDieType(DieGraphicsItem::DieType::dNull);
+		elem->setVisible(false);
+	}
+	else if (die_inside == 0)
+	{
+		elem->setDieType(DieGraphicsItem::DieType::dNull);
+	}
+	else if (die_inside == 1)
+	{
+		elem->setDieType(DieGraphicsItem::DieType::dCheckable);
+	}
+}
+
+void WaferGraphicsItem::on_lineItemReady(
+	QVector<std::shared_ptr< DieGraphicsItem>>* tmp_col
+	, int col)
+{
+	int die_inside = -1;
+	int j = 0;
+	if (j < tmp_col->count())
+	{
+		for (auto elem : *tmp_col)
+		{
+			elem->setParentItem(this);
+			elem->setPos(mapping_data.start_point + QPointF(j * mapping_data.d_x_step, col * mapping_data.d_y_step));
+			elem->updateDie();
+			elem->setVisible(true);
+			die_inside = isDieInside(&(*elem));
+			dieStyleUpdate(elem, die_inside);
+			if (col == mapping_data.ref_row && j == mapping_data.ref_col)
+			{
+				elem->setDieFuncType(DieGraphicsItem::DieFuncType::dRef);
+			}
+			else
+			{
+				elem->setDieFuncType(DieGraphicsItem::DieFuncType::dNormal);
+			}
+			j++;
+		}
+		m_mapping.insert(col, *tmp_col);
+		//qDebug() << "m_mapping size " << col << " counts " << m_mapping[col].count();
+	}
+	else
+	{
+		qDebug() << "invalid j " << j;
+	}
+}
+
+
+void WaferGraphicsItem::on_waferDieUpdate()
+{
+	if (m_mapping.count() == 0)
+	{
+		return;
+	}
+	for (int i = 0; i < mapping_data.rows; i++)
+	{
+		for (int j = 0; j < mapping_data.cols; j++)
+		{
+			m_mapping[i][j]->setPos(mapping_data.start_point +
+				QPointF(j * mapping_data.d_x_step, i * mapping_data.d_y_step));
+			m_mapping[i][j]->updateDie();
+			this->dieStyleUpdate(m_mapping[i][j], isDieInside(&(*m_mapping[i][j])));
+			if (i == mapping_data.ref_row && j == mapping_data.ref_col)
+			{
+				m_mapping[i][j]->setDieFuncType(DieGraphicsItem::DieFuncType::dRef);
+			}
+			else
+			{
+				m_mapping[i][j]->setDieFuncType(DieGraphicsItem::DieFuncType::dNormal);
+			}
+		}
+	}
 }
 
 void WaferGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget /* = nullptr */)

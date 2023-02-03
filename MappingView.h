@@ -9,9 +9,19 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsEllipseItem>
 #include <QMenu>
+#include <QThreadPool>
+
+
 #include "MappingData.h"
 #include "DieGraphicsItem.h"
 #include "WaferGraphicsItem.h"
+#include "WaferPixmapItem.h"
+#include "WaferGridItem.h"
+
+//线程池中的线程使用的堆栈字节数
+#define BUTIANYUN_STACK_SIZE_BYTES   (1024 * 1024 * 64)
+//线程池中最大的线程数量
+#define BUTIANYUN_THREADPOOL_MAX_THREAD_COUNT 16
 
 
 class MappingView : public QGraphicsView
@@ -28,29 +38,38 @@ public:
 	};
 public:
 	MappingView();
-	void DisplayMapping(MappingDataStruct& mapping_data);
-	void DisplayMapping(WaferGraphicsItem& wafer);
+	void DisplayMapping(MappingDataStruct& mapping_data, bool regen = true);
 private:
 	void ParamInit();
 	void FitShow();
+signals:
+
+	void sign_lineItemReady(
+		QVector<std::shared_ptr< DieGraphicsItem>>* tmp_col,
+		int col);
+	void sign_waferDieChanged();
+
 private slots:
 	void onMenuAction(int);
+
 private:
+	QThreadPool* threadPool = nullptr;
 	QTransform m_transform;
 	QPointF m_centerPos;
 	QGraphicsScene* m_scene;
 	QPainter* m_painter;
 	QPen draw_pen;
 	QBrush draw_brush;
+	WaferPixmapItem* m_wafer;
 	QGraphicsLineItem* v_line;
 	QGraphicsLineItem* h_line;
-	WaferGraphicsItem* edge_circle = nullptr;
 	qreal m_scale = 1.0;
 	ViewMode view_mode;
 	QPointF m_cur_pos_view;
 	QPointF m_cur_pos_scene;
 	QPointF m_lastMousePos;
 	QMenu* m_typeMenu;
+	bool m_scaleMode = false;
 protected:
 	//virtual void paintEvent(QPaintEvent* event) override;
 
@@ -63,6 +82,8 @@ protected:
 	virtual void wheelEvent(QWheelEvent* event) override;
 
 	virtual void resizeEvent(QResizeEvent* event) override;
+
+	virtual void paintEvent(QPaintEvent* event) override;
 
 };
 

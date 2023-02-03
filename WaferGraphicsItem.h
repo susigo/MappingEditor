@@ -5,14 +5,16 @@
 #include <QBrush>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+
 #include "MappingData.h"
 #include "DieGraphicsItem.h"
 
-#define  M_PI 3.14159
+//#define  M_PI 3.14159
 
 class WaferGraphicsItem
 	:public QObject, public QGraphicsItemGroup
 {
+	Q_OBJECT
 public:
 	enum WaferType
 	{
@@ -32,9 +34,12 @@ public:
 public:
 	WaferGraphicsItem(WaferType wType, WaferSizeEnum _wafer_size, QPoint pos = QPoint(0, 0));
 	~WaferGraphicsItem() = default;
-	void GennerateMapping(MappingDataStruct& mapping_data);
 
+	void setWaferDate(MappingDataStruct& _mapping_data);
 	void saveAsDigi(QString file_path);
+	void clearDies();
+	void resizeDies(int rows);
+
 	MappingDataStruct readFromDigi(QString file_path);
 
 	int isDieInside(DieGraphicsItem* die);
@@ -50,14 +55,24 @@ public:
 private:
 	void DrawLineWithArrow(QPainter& painter, QPen pen, QPoint start, QPoint end);
 	qreal getPointDist(QPointF point1, QPointF point2);
+	void dieStyleUpdate(std::shared_ptr< DieGraphicsItem> die, int _type);
+public slots:
+	void on_lineItemReady(
+		QVector<std::shared_ptr< DieGraphicsItem>>* tmp_col, int col);
+	void on_waferDieUpdate();
 private:
-	QList<QList<std::shared_ptr< DieGraphicsItem>>> m_mapping;
+	static QMap<int, QVector<std::shared_ptr< DieGraphicsItem>>>
+		m_mapping;
+
 	MappingDataStruct mapping_data;
 	WaferSizeEnum wafer_size_index;
 	WaferType m_wafer_type;
 	QPointF m_center;
 	QBrush m_brush;
 	QPen m_pen;
+	QPointF start_point;
+	qreal x_step = 0;
+	qreal y_step = 0;
 
 	bool size_changed = true;
 	double wafer_real_radium = 75.0;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>467</width>
-    <height>635</height>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -341,6 +341,25 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_sizeComform">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>确认行列</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="Line" name="line_7">
@@ -972,7 +991,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="label_19">
+         <widget class="QLabel" name="label_infoView">
           <property name="text">
            <string>TextLabel</string>
           </property>

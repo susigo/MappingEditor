@@ -2,6 +2,7 @@
 #include "DieGraphicsItem.h"
 #include <QMouseEvent>
 #include <QtOpenGL>
+#include "WaferPixmapItem.h"
 
 qreal DieGraphicsItem::die_width;
 qreal DieGraphicsItem::die_height;
@@ -10,39 +11,30 @@ MappingStyle DieGraphicsItem::die_style;
 MappingView::MappingView()
 {
 #ifndef QT_NO_OPENGL
-	this->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+	//this->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
 #endif
 
 	ParamInit();
-	this->setViewportUpdateMode(ViewportUpdateMode::SmartViewportUpdate);
+	this->setViewportUpdateMode(ViewportUpdateMode::MinimalViewportUpdate);
 	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	this->setDragMode(QGraphicsView::RubberBandDrag);
 	this->setMouseTracking(true);
-
 }
 
-void MappingView::DisplayMapping(MappingDataStruct& _mapping_data)
+void MappingView::DisplayMapping(
+	MappingDataStruct& _mapping_data
+	, bool regen)
 {
-	edge_circle->setVisible(true);
-	edge_circle->GennerateMapping(_mapping_data);
-	FitShow();
-}
 
-
-void MappingView::DisplayMapping(WaferGraphicsItem& wafer)
-{
-	edge_circle = &wafer;
-	//m_scene->removeItem(edge_circle);
-	m_scene->addItem(edge_circle);
-	FitShow();
 }
 
 void MappingView::ParamInit()
 {
+
 	m_scene = new QGraphicsScene;
 	m_scene->setBackgroundBrush(Qt::gray);
-	m_scene->setSceneRect(-800, -800, 1600, 1600);
+	m_scene->setSceneRect(-100000, -100000, 200000, 200000);
 	this->setScene(m_scene);
 	m_painter = new QPainter;
 	draw_pen.setColor(Qt::white);
@@ -50,20 +42,34 @@ void MappingView::ParamInit()
 	m_painter->setBrush(Qt::NoBrush);
 	m_painter->setPen(draw_pen);
 
+	WaferPixmapItem::WaferPixmapInit();
 
-	//v_line = new QGraphicsLineItem;
-	//h_line = new QGraphicsLineItem;
-	//v_line->setLine(0, -300, 0, 300);
-	//h_line->setLine(-300, 0, 300, 0);
-	//m_scene->addItem(v_line);
-	//m_scene->addItem(h_line);
+	v_line = new QGraphicsLineItem;
+	h_line = new QGraphicsLineItem;
+	m_wafer = new WaferPixmapItem();
+	v_line->setLine(0, -1000, 0, 1000);
+	h_line->setLine(-1000, 0, 1000, 0);
+	m_scene->addItem(v_line);
+	m_scene->addItem(h_line);
+	//m_scene->addItem(m_wafer);
 
-	//edge_circle = new WaferGraphicsItem(WaferGraphicsItem::Flat, WaferGraphicsItem::Wafer150MM);
-	//m_scene->addItem(edge_circle);
+	v_line->setVisible(true);
+	h_line->setVisible(true);
 
-	//v_line->setVisible(false);
-	//h_line->setVisible(false);
-	//edge_circle->setVisible(true);
+	double start_x = 0;
+	double start_y = 0;
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			WaferGridItem* grid_1 = new WaferGridItem();
+			m_scene->addItem(grid_1);
+			grid_1->setPos(start_x, start_y);
+			start_x += (GRID_DIE_COUNTS * WaferGridItem::die_width);
+		}
+		start_y += (GRID_DIE_COUNTS * WaferGridItem::die_height);
+		start_x = 0;
+	}
 
 	m_typeMenu = new QMenu();
 	QAction* tmp_action = new QAction("Null");
@@ -95,65 +101,12 @@ void MappingView::ParamInit()
 
 void MappingView::FitShow()
 {
-	if (edge_circle == nullptr)
-	{
-		return;
-	}
-	qreal w_ratio = 0.95 * this->width() / edge_circle->width();
-	qreal h_ratio = 0.95 * this->height() / edge_circle->height();
-	if (w_ratio > h_ratio)
-	{
-		m_scale = h_ratio;
-	}
-	else
-	{
-		m_scale = w_ratio;
-	}
-
-	m_transform.reset();
-
-	m_transform.scale(m_scale, m_scale);
-	this->setTransform(m_transform);
-	//m_centerPos = QPointF(mapping_data.wafer_size * 0.5, mapping_data.wafer_size * 0.5);
-	centerOn(edge_circle->pos());
 
 }
 
 void MappingView::onMenuAction(int _type)
 {
-	if (m_scene->selectedItems().count() > 0)
-	{
-		//qDebug() << "Seleted items " << m_scene->selectedItems().count();
-		DieGraphicsItem* tmp_die = nullptr;
-		for (auto elem : m_scene->selectedItems())
-		{
-			tmp_die = dynamic_cast<DieGraphicsItem*>(elem);
-			if (tmp_die != nullptr)
-			{
-				switch (_type)
-				{
-				case 0:
-					tmp_die->setDieType(DieGraphicsItem::dNull);
-					break;
-				case 1:
-					tmp_die->setDieType(DieGraphicsItem::dSkip);
-					break;
-				case 2:
-					tmp_die->setDieType(DieGraphicsItem::dOk);
-					break;
-				case 3:
-					tmp_die->setDieType(DieGraphicsItem::dNG);
-					break;
-				case 4:
-					tmp_die->setDieType(DieGraphicsItem::dCheckable);
-					break;
-				default:
-					break;
-				}
-				tmp_die->setSelected(false);
-			}
-		}
-	}
+
 }
 
 //void MappingView::paintEvent(QPaintEvent* event)
@@ -166,9 +119,7 @@ void MappingView::onMenuAction(int _type)
 	//DrawLineWithArrow(*m_painter, draw_pen, QPoint(20, 20), QPoint(50, 20));
 	//DrawLineWithArrow(*m_painter, draw_pen, QPoint(20, 20), QPoint(20, 50));
 	//画wafer id
-
 	//画行列
-
 	//m_painter->end();
 //}
 
@@ -206,14 +157,16 @@ void MappingView::mouseMoveEvent(QMouseEvent* event)
 		m_centerPos.setY(m_centerPos.y() - m_cur_pos_scene.y() + m_lastMousePos.y());
 		centerOn(m_centerPos);
 	}
+
 }
 
 void MappingView::wheelEvent(QWheelEvent* event)
 {
+	m_scaleMode = true;
 	//QGraphicsView::wheelEvent(event);
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	qreal scaleFactor = 1.0;
-	if (event->delta() > 0)
+	if (event->angleDelta().y() > 0)
 	{
 		scaleFactor = 1.2;
 	}
@@ -230,6 +183,11 @@ void MappingView::wheelEvent(QWheelEvent* event)
 void MappingView::resizeEvent(QResizeEvent* event)
 {
 	QGraphicsView::resizeEvent(event);
-	FitShow();
+	//FitShow();
 }
 
+void MappingView::paintEvent(QPaintEvent* event)
+{
+	QGraphicsView::paintEvent(event);
+	m_scaleMode = false;
+}

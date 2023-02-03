@@ -3,6 +3,7 @@
 #include <qglobal.h>
 #include <QString>
 #include <QColor>
+#include <QPointF>
 
 typedef struct _MappingDataStruct
 {
@@ -40,6 +41,11 @@ typedef struct _MappingDataStruct
 
 	double center_x;
 	double center_y;
+
+	QPointF start_point;
+	double d_x_step;
+	double d_y_step;
+
 public:
 	_MappingDataStruct() {
 		flat_notch = 0;//平口

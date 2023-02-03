@@ -61,6 +61,7 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_2;
     QSpinBox *spinBox_mappingRow;
+    QPushButton *btn_sizeComform;
     QFrame *line_7;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label_4;
@@ -105,7 +106,7 @@ public:
     QLabel *label_info;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout;
-    QLabel *label_19;
+    QLabel *label_infoView;
     QMenuBar *menubar;
     QMenu *menu;
     QStatusBar *statusbar;
@@ -114,7 +115,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(467, 635);
+        MainWindow->resize(467, 670);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionSave = new QAction(MainWindow);
@@ -275,6 +276,13 @@ public:
 
 
         verticalLayout_2->addLayout(horizontalLayout_3);
+
+        btn_sizeComform = new QPushButton(centralwidget);
+        btn_sizeComform->setObjectName(QString::fromUtf8("btn_sizeComform"));
+        btn_sizeComform->setMinimumSize(QSize(0, 25));
+        btn_sizeComform->setMaximumSize(QSize(200, 16777215));
+
+        verticalLayout_2->addWidget(btn_sizeComform);
 
         line_7 = new QFrame(centralwidget);
         line_7->setObjectName(QString::fromUtf8("line_7"));
@@ -572,10 +580,10 @@ public:
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        label_19 = new QLabel(centralwidget);
-        label_19->setObjectName(QString::fromUtf8("label_19"));
+        label_infoView = new QLabel(centralwidget);
+        label_infoView->setObjectName(QString::fromUtf8("label_infoView"));
 
-        verticalLayout->addWidget(label_19);
+        verticalLayout->addWidget(label_infoView);
 
 
         horizontalLayout->addLayout(verticalLayout);
@@ -632,6 +640,7 @@ public:
         lineEdit_angle->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Mapping Cols", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Mapping Rows", nullptr));
+        btn_sizeComform->setText(QCoreApplication::translate("MainWindow", "\347\241\256\350\256\244\350\241\214\345\210\227", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "Device Width(mm)", nullptr));
         lineEdit_width->setText(QCoreApplication::translate("MainWindow", "3.5", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "Device Height(mm)", nullptr));
@@ -673,7 +682,7 @@ public:
 
         btn_saveMapping->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
         label_info->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
-        label_19->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        label_infoView->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266", nullptr));
     } // retranslateUi
 

@@ -17,7 +17,7 @@ DieGraphicsItem::DieGraphicsItem(
 	selectedFlag = false;
 
 	m_brush->setColor(die_style.die_checkableColor);
-	setAcceptHoverEvents(true);
+	//setAcceptHoverEvents(true);
 	this->setFlags(
 		QGraphicsItem::ItemIsSelectable |
 		QGraphicsItem::ItemIsFocusable);

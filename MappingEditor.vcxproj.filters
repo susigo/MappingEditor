@@ -40,6 +40,9 @@
     <ClCompile Include="DieGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GLWaferView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,12 +52,21 @@
     <ClCompile Include="WaferGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WaferGridItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaferPixmapItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="DieGraphicsItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GLWaferView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="MainWindow.h">
@@ -66,11 +78,25 @@
     <QtMoc Include="MappingView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="WaferGraphicsItem.h">
+    <QtMoc Include="WaferGraphicsItem.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </QtMoc>
+    <QtMoc Include="WaferGridItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WaferPixmapItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

@@ -6,14 +6,16 @@ MainWindow::MainWindow(QWidget* parent)
 	, ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-	validOnce = false;
-	curWafer = new WaferGraphicsItem(WaferGraphicsItem::Flat, WaferGraphicsItem::Wafer150MM);
 	mappingView = new MappingView();
+	glwafeeView = new GLWaferView();
+
+	ui->label_infoView->setMaximumHeight(25);
 	ui->verticalLayout->addWidget(mappingView);
-	//mappingView->setMaximumWidth(1000);
+	//ui->verticalLayout->addWidget(glwafeeView);
+
 	this->setMouseTracking(true);
 	this->resize(1200, 900);
-	on_btn_generateMapping_clicked();
+
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +31,7 @@ void MainWindow::testFunc()
 
 void MainWindow::on_btn_generateMapping_clicked()
 {
+
 	mapping.wafer_size = ui->comboBox_waferSize->currentIndex();
 	if (mapping.wafer_size == 0)
 	{
@@ -96,29 +99,30 @@ void MainWindow::on_btn_generateMapping_clicked()
 	mapping.center_y = ui->lineEdit_centerY->text().toDouble();
 	mapping.wafer_angle = ui->lineEdit_angle->text().toDouble();
 
+
 	if (size_changed)
 	{
-		curWafer->sizeChanged();
+		mappingView->DisplayMapping(mapping);
+	}
+	else
+	{
+		mappingView->DisplayMapping(mapping, false);
 	}
 
-	curWafer->setRealWaferSize(ui->lineEdit_realSize->text().toDouble());
-	curWafer->GennerateMapping(mapping);
-	mappingView->DisplayMapping(*curWafer);
-	validOnce = true;
 	ui->label_info->setText("Mapping generated!");
 }
 
 
 void MainWindow::on_spinBox_mappingCol_valueChanged(int arg1)
 {
-	on_btn_generateMapping_clicked();
+	//on_btn_generateMapping_clicked();
 }
 
 
 
 void MainWindow::on_spinBox_mappingRow_valueChanged(int arg1)
 {
-	on_btn_generateMapping_clicked();
+	//on_btn_generateMapping_clicked();
 }
 
 
@@ -228,5 +232,11 @@ void MainWindow::on_btn_saveMapping_clicked()
 	default:
 		break;
 	}
+}
+
+
+void MainWindow::on_btn_sizeComform_clicked()
+{
+	on_btn_generateMapping_clicked();
 }
 
